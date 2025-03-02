@@ -19,7 +19,7 @@
         }
 
         form {
-            background-color: azure;
+            background-color: #C8E6C9;
             padding: 20px;
             border-radius: 15px;
             width: 400px;
@@ -42,7 +42,7 @@
 
         input[type="submit"] {
             font-weight: bold;
-            background-color: green;
+            background-color: #6D4C41;
             color: white;
             cursor: pointer;
             font-size: large;
@@ -56,13 +56,14 @@
         }
 
         th, td {
-            border: 1px solid #ddd;
+            border: 1px solid antiquewhite;
             padding: 8px;
             text-align: left;
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #C8E6C9;
+           
         }
 
         .action-buttons {
@@ -90,10 +91,9 @@
 </head>
 
 <body>
-    <form id="foodForm">
+    <form id="FormMakanan">
         <h2>Input Data Makanan</h2>
-        <label for="foto">Foto Makanan</label>
-        <input type="file" id="foto" name="foto" accept="image/*" required>
+       
 
         <label for="nama">Nama Makanan</label>
         <input type="text" id="nama" name="nama" required>
@@ -106,6 +106,9 @@
 
         <label for="lokasi">Lokasi</label>
         <input type="text" id="lokasi" name="lokasi" required>
+
+        <label for="foto">Foto Makanan</label>
+        <input type="file" id="foto" name="foto" accept="image/*" required>
 
         <input type="submit" value="Submit">
     </form>
@@ -126,15 +129,20 @@
     </table>
 
     <script>
-        document.getElementById("foodForm").addEventListener("submit", function(event) {
+        document.getElementById("FormMakanan").addEventListener("submit", function(event) {
             event.preventDefault();
-
+    
             let foto = document.getElementById("foto").files[0];
             let nama = document.getElementById("nama").value;
             let deskripsi = document.getElementById("deskripsi").value;
             let kuantitas = document.getElementById("kuantitas").value;
             let lokasi = document.getElementById("lokasi").value;
             
+            if (!foto) {
+                alert("Silakan pilih foto!");
+                return;
+            }
+    
             let reader = new FileReader();
             reader.onload = function(e) {
                 let table = document.getElementById("dataTable").getElementsByTagName('tbody')[0];
@@ -148,7 +156,8 @@
                                         <button class="edit-btn">Edit</button>
                                         <button class="delete-btn">Hapus</button>
                                     </td>`;
-                
+    
+                // Tambahkan event listener untuk tombol Edit
                 newRow.querySelector(".edit-btn").addEventListener("click", function() {
                     document.getElementById("nama").value = nama;
                     document.getElementById("deskripsi").value = deskripsi;
@@ -156,16 +165,18 @@
                     document.getElementById("lokasi").value = lokasi;
                     newRow.remove();
                 });
-                
+    
+                // Tambahkan event listener untuk tombol Hapus
                 newRow.querySelector(".delete-btn").addEventListener("click", function() {
                     newRow.remove();
                 });
             };
             reader.readAsDataURL(foto);
-
-            document.getElementById("foodForm").reset();
+    
+            document.getElementById("FormMakanan").reset();
         });
     </script>
+    
 </body>
 
 </html>

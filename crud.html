@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Makanan</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: antiquewhite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            background-color: azure;
+            padding: 20px;
+            border-radius: 15px;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            font-weight: bold;
+            background-color: green;
+            color: white;
+            cursor: pointer;
+            font-size: large;
+            margin-top: 15px;
+        }
+
+        table {
+            width: 90%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .edit-btn, .delete-btn {
+            cursor: pointer;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .edit-btn {
+            background-color: orange;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="foodForm">
+        <h2>Input Data Makanan</h2>
+        <label for="foto">Foto Makanan</label>
+        <input type="file" id="foto" name="foto" accept="image/*" required>
+
+        <label for="nama">Nama Makanan</label>
+        <input type="text" id="nama" name="nama" required>
+
+        <label for="deskripsi">Deskripsi Makanan</label>
+        <textarea id="deskripsi" name="deskripsi" required></textarea>
+
+        <label for="kuantitas">Kuantitas</label>
+        <input type="number" id="kuantitas" name="kuantitas" min="1" required>
+
+        <label for="lokasi">Lokasi</label>
+        <input type="text" id="lokasi" name="lokasi" required>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th>Nama</th>
+                <th>Deskripsi</th>
+                <th>Kuantitas</th>
+                <th>Lokasi</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        document.getElementById("foodForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let foto = document.getElementById("foto").files[0];
+            let nama = document.getElementById("nama").value;
+            let deskripsi = document.getElementById("deskripsi").value;
+            let kuantitas = document.getElementById("kuantitas").value;
+            let lokasi = document.getElementById("lokasi").value;
+            
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                let table = document.getElementById("dataTable").getElementsByTagName('tbody')[0];
+                let newRow = table.insertRow();
+                newRow.innerHTML = `<td><img src="${e.target.result}" width="50"></td>
+                                    <td>${nama}</td>
+                                    <td>${deskripsi}</td>
+                                    <td>${kuantitas}</td>
+                                    <td>${lokasi}</td>
+                                    <td class="action-buttons">
+                                        <button class="edit-btn">Edit</button>
+                                        <button class="delete-btn">Hapus</button>
+                                    </td>`;
+                
+                newRow.querySelector(".edit-btn").addEventListener("click", function() {
+                    document.getElementById("nama").value = nama;
+                    document.getElementById("deskripsi").value = deskripsi;
+                    document.getElementById("kuantitas").value = kuantitas;
+                    document.getElementById("lokasi").value = lokasi;
+                    newRow.remove();
+                });
+                
+                newRow.querySelector(".delete-btn").addEventListener("click", function() {
+                    newRow.remove();
+                });
+            };
+            reader.readAsDataURL(foto);
+
+            document.getElementById("foodForm").reset();
+        });
+    </script>
+</body>
+
+</html>

@@ -13,9 +13,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            justify-content: flex-start;
+            min-height: 100vh;
             margin: 0;
+            overflow-y: auto;
+            padding: 20px;
         }
 
         form {
@@ -50,9 +52,11 @@
         }
 
         table {
-            width: 90%;
+            width: 95%;
+            max-width: 800px;
             margin-top: 20px;
             border-collapse: collapse;
+            overflow-y: auto;
         }
 
         th, td {
